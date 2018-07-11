@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+    body {
+        position: relative;
+    }
+        .xxx {
+            width:100%;
+            height:200px;
+        }
+        header {
+            width:100%;
+            height: 100px;
+            background: lightpink;
+        }
+        header>div {
+            display: inline-block;
+            font-size: 20px;
+            width: 200px;
+            height: 100px;
+            line-height: 100px;
+            background: greenyellow
+        }
+        section>div {
+            width: 100%;
+            height: 500px;
+        }
+        .fixed {
+                position: fixed;
+                top: 0;
+        }
+        .current {
+            background: blue;
+        }
+    </style>
+</head>
+<body>
+    <div class="xxx"></div>
+    <header>
+        <div class="header-item">松岛菜菜子</div>
+        <div class="header-item">唐嫣</div>
+        <div class="header-item">迪丽热巴</div>
+        <div class="header-item">孙悟空</div>
+    </header>
+    <section>
+         <div >松岛菜菜子</div>
+        <div>唐嫣</div>
+        <div>迪丽热巴</div>
+        <div>孙悟空</div>
+    </section>
+    <script type="text/javascript">
+         var navPosition = $('header').offset().top; //获取需要固定的导航栏的高度
+            $(window).scroll(function () {
+        var scrollT = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+        if (scrollT >= navPosition) {//判断滚动高度是否超过导航
+            $('header').addClass('fixed');
+            $('section').css('margin-top','100px');
+        } else {
+            $('header').removeClass('fixed');
+            $('section').css('margin-top',0);;
+        }
+    });
+
+             for (var i = 0; i < $('section>div').length; i++) {
+        
+        (function (lop) {
+            $(window).scroll(function () {
+                if ($(window).scrollTop() >= $('section>div')[lop].offsetTop - 150) {
+                    $('header>div:eq(' + lop + ')').addClass('current').siblings().removeClass('current');
+                }
+              
+            });
+        })(i);
+    }
+
+    //滚动条滚到底部的时候 
+    $(window).scroll(function(){
+　　var scrollTop = $(this).scrollTop();
+　　var scrollHeight = $(document).height();
+　　var windowHeight = $(this).height();
+　　if(scrollTop + windowHeight == scrollHeight){
+　　　　$('header>div').removeClass('current');
+       $('header>div:last').addClass('current')
+　　}
+});
+        $('header').on('click', '.header-item', function () {
+        $('body,html').animate({
+            scrollTop: $('section>div:eq(' + $(this).index() + ')').offset().top - 150
+        }, 'slow');
+    });
+    </script>
+</body>
+</html>
